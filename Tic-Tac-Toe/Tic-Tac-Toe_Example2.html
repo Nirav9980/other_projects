@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<style>
+		.c0:hover
+		{
+			background-color:yellow 
+		}
+		.c1 
+		{
+			height:200px;
+			width:200px;
+			float:left;
+			border:1px solid black
+		}
+		.c2
+		{
+			clear:left;
+			/* Indicates which sides of an element's box(es) may not be adjacent
+			 to an earlier floating box. The 'clear' property does not consider 
+			 floats inside the element itself or in other block formatting contexts.
+
+			Syntax: none | left | right | both | inline-start | inline-end
+
+			MDN Reference */
+			/* What is the full form of MDN?
+			MDN Web Docs (formerly Mozilla Developer Network),
+			a Mozilla website for developer documentation. Message Disposition Notification,
+			a form of return receipt for e-mail. Telephone number for mobile devices,
+			as in: Mobile device number. */
+		}
+		.c3
+		{
+			font-size:200px;
+			text-align:center
+		}
+		.c4
+		{
+			height:604px;
+			width:604px;
+			border:1px solid black;
+			margin-left:450px;
+			margin-top:50px
+		}
+		.letsplay
+		{
+			height:100px;
+			width:400px;
+			font-size:100px;
+			margin-left:101px;
+			/* margin-top: 20px; */
+			position:absolute;
+			/* The position CSS property sets how an element is positioned in a document.
+			The top, right, bottom, and left properties determine the final location 
+			of positioned elements.
+
+			Syntax: static | relative | absolute | sticky | fixed
+
+			MDN Reference */
+			top: 8.5%;
+			text-align:center;
+			color:chocolate;
+			margin-bottom: 50px;
+		}
+	</style>
+	
+	<script type="text/javascript">
+		var count = 1,flag=0;
+		function start()
+		{  
+			var mainDiv=document.getElementById("mainDiv");
+			mainDiv.style.display=""; //CSSStyleDeclarations
+				// style.display : which display the String (specified String)
+			var result=document.getElementById("result");
+			result.style.display="";
+			var buttonQuit=document.getElementById("buttonQuit");
+			buttonQuit.style.display="";
+			var buttonReset=document.getElementById("buttonReset");
+			buttonReset.style.display="";
+			var boxDiv=document.getElementById("boxDiv");
+			boxDiv.style.display="none";
+		}
+
+		function fill(control)
+		{
+			var r=document.getElementById("result"); 
+			if(count<=9 && flag==0)
+			{
+				if(count%2==0 && flag==0)
+				{
+					// document.getElementById(control.id).innerHTML="O";
+					putData(control.id,"O");
+					r.innerHTML="X's Turn";
+				}
+				else
+				{
+					// document.getElementById(control.id).innerHTML="X";
+					putData(control.id,"X");
+					r.innerHTML="O's Turn";
+				}
+				count++;
+				if(checkWin())
+				{
+					alert("Winner!");
+					reset();    
+				}
+				if(flag==1)
+				{  
+					reset();
+				}
+			}
+			else
+			{
+				alert("Match Draw!");
+				reset();
+			}
+		}
+
+		function reset()
+		{
+			for(var i=1;i<=9;i++)
+			{
+				// document.getElementById(div+i).innerHTML="";
+				putData('div'+i,"");
+			}
+			count = 1;
+			var r=document.getElementById("result");
+			r.innerHTML="O's turn";
+		}
+
+		function checkWin()
+		{
+			if(checkCondition('div1','div2','div3') || checkCondition('div3','div6','div9') || checkCondition('div7','div8','div9')
+				|| checkCondition('div1','div4','div7') || checkCondition('div1','div5','div9') || checkCondition('div3','div5','div7')
+				|| checkCondition('div2','div5','div8') || checkCondition('div4','div5','div6'))
+			{
+				return true;
+			}
+		}
+
+		function checkCondition(div1,div2,div3)
+		{
+			if(getData(div1)!="" && getData(div2)!="" && getData(div3)!="" &&
+				getData(div1)==getData(div2) && getData(div2)==getData(div3))
+			{
+				return true;
+			}
+		}
+		
+		function getData(div)
+		{
+			return document.getElementById(div).innerHTML;
+		}  
+		
+		function putData(div,data)
+		{
+			document.getElementById(div).innerHTML=data;
+		}
+
+		function quit()
+		{
+			reset();
+
+			var mainDiv=document.getElementById("mainDiv");
+			mainDiv.style.display="none";
+			var result=document.getElementById("result");
+			result.style.display="none";
+			var buttonQuit=document.getElementById("buttonQuit");
+			buttonQuit.style.display="none";
+			var buttonReset=document.getElementById("buttonReset");
+			buttonReset.style.display="none";
+			var boxDiv=document.getElementById("boxDiv");
+			boxDiv.style.display="";
+		}
+		</script>
+	</head>
+	
+	<body>
+
+		<div style="height:30px;width:200px;border:3px solid yellow;float:left;text-align:center;font-size:30px;display:none" id="result">O's turn 
+			<!-- turn in the start of the tic-tac-toe -->
+		</div>
+		<input type="button" style="float:left;margin-left:10px;height:36px;display:none;color:red" value="RESET" id="buttonReset" onclick="reset()">
+		<input type="button" style="float:left;margin-left:10px;height:36px;display:none;color:red" value="QUIT" id="buttonQuit" onclick="quit()">
+
+		<!-- <input type="button" style="float:left;margin-left:10px;height:36px;display:none;color:red" value="RESET" id="buttonq" onclick="reset()">
+		<input type="button" style="float:left;margin-left:10px;height:36px;display:none;color:red" value="QUIT" id="buttonr" onclick="quit()">
+		<input type="button" style="float:left;margin-left:10px;height:36px;display:none;color:red" value="OK" id="buttono" onclick="reset()"> -->
+
+		<div style="height:606px;width:606px;display:none;margin-left:450px;margin-top:50px;background-color:lightpink" id="mainDiv">
+			<!-- put the element into the different class(es) -->
+			<div class="c1 c0 c3" id="div1" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div2" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div3" onclick="fill(this)"></div>
+			<div class="c1 c0 c3 c2" id="div4" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div5" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div6" onclick="fill(this)"></div>
+			<div class="c1 c0 c3 c2" id="div7" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div8" onclick="fill(this)"></div>
+			<div class="c1 c0 c3" id="div9" onclick="fill(this)"></div>
+		</div>
+
+		<div class="c4" id="boxDiv">
+			<img src="index.png " height="604" width="604" style="opacity:0.7; margin-top: 50px;" onclick="start()">
+			<div class="letsplay">Let's play</div>
+		</div>
+	</body>
+</html>
